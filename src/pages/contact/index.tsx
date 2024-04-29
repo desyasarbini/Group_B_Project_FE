@@ -2,13 +2,13 @@ import React from "react";
 
 const ContactPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-stone-500">
+    <div className="min-h-screen bg-white container mx-auto" >
       image
       {/* Contact Information */}
-      <section className="bg-stone-500 py-8">
+      <section className= "py-8">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-semibold mb-4">Contact Information</h2>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 bg-stone-500 p-6 rounded-md">
             {/* Placeholder Contact Info */}
             <div className="bg-gray-200 p-4 rounded">
               <h3 className="text-lg font-semibold mb-2">Address</h3>
