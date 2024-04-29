@@ -3,6 +3,11 @@ import Image from "next/image";
 import homeImg from "/public/slide-1.jpg";
 import { Card } from "@/components";
 
+interface Props {
+  page: string;
+  image: string;
+}
+
 const Hero = () => {
   return (
     <Card className="container relative mx-auto bg-gray-800 overflow-hidden w-full ">
