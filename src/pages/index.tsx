@@ -1,10 +1,15 @@
 import React from "react";
 import { Card, Hero } from "@/components";
+import homeImg from "/public/slide-1.jpg";
 
 const Home = () => {
   return (
     <>
-      <Hero />;
+      <Hero
+        title="Hijaukan Bumi, Hidupkan Harapan!"
+        image={homeImg}
+        description="Gabung bersama kami membangun masa depan yang lebih hijau dan penuh harapan. Aksi Anda hari ini menentukan bumi esok hari. Mari beraksi untuk alam dan kemanusiaan!"
+      />
       <Card className="my-12">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

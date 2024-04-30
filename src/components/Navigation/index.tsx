@@ -7,9 +7,9 @@ const Header: React.FC = () => {
       <Card className="container flex items-center justify-between w-full px-4 mx-auto">
         <TextTag
           type="h1"
-          className="flex-auto text-lg font-semibold text-black no-underline hover:text-gray-700"
+          className="flex-auto text-4xl font-bold text-black no-underline hover:text-gray-700"
         >
-          <Link href="/">TekDungTes!</Link>
+          <Link href="/">LSTR!</Link>
         </TextTag>
 
         <Card id="navbar" className="hidden md:block">

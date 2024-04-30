@@ -1,5 +1,10 @@
+import React from "react";
+import Image from "next/image";
+import homeImg from "/public/slide-1.jpg";
+import { Card, Hero } from "@/components";
+
 const AboutPage = () => {
-  return <div>Ini halaman About</div>;
+  return <Hero />;
 };
 
 export default AboutPage;

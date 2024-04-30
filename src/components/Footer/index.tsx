@@ -5,7 +5,7 @@ const Footer = () => {
         <div className="text-center">
           &copy; Copyright{" "}
           <strong>
-            <span className="text-green-500">TekDungTes!</span>
+            <span className="text-indigo-500">LSTR!</span>
           </strong>
           . All Rights Reserved
         </div>
