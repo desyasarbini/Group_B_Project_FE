@@ -1,9 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 
 import {
   CardActionArea,
-  CardActions,
   Typography,
   CardMedia,
   CardContent,
@@ -35,6 +34,14 @@ const CardItem: React.FC<Props> = ({ project }: Props) => {
     target_amount,
   } = project;
 
+  const [showLess, setShowLess] = useState("");
+
+  useEffect(() => {
+    {
+      const data = description.substring(0, 250);
+      setShowLess(data);
+    }
+  }, []);
   return (
     <Card sx={{ width: 300 }}>
       <CardActionArea>
@@ -49,7 +56,7 @@ const CardItem: React.FC<Props> = ({ project }: Props) => {
             {project_name}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            {description}
+            {showLess}
           </Typography>
         </CardContent>
       </CardActionArea>

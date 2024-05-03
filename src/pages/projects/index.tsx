@@ -6,7 +6,8 @@ const ProjectsPage = () => {
   const projectsList = [
     {
       admin_id: 2,
-      description: "test create project with admin",
+      description:
+        "test create project with admin test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin  test create project with admin ",
       end_date: "Sun, 25 May 2025 00:00:00 GMT",
       id: 5,
       percentage: " 12.50%",
