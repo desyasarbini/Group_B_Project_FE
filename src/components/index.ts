@@ -8,3 +8,5 @@ export { default as Activity } from "./Activity";
 export { default as CardItem } from "./CardItem";
 export { default as CardList } from "./CardList";
 export { default as SearchField } from "./SearchField";
+export { default as TargetRecap } from "./TargetRecap";
+export { default as Input } from "./Input";

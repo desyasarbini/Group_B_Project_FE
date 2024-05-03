@@ -8,6 +8,7 @@ import {
   CardMedia,
   CardContent,
 } from "@mui/material";
+import TargetRecap from "../TargetRecap";
 
 interface Detail {
   admin_id: number;
@@ -52,39 +53,7 @@ const CardItem: React.FC<Props> = ({ project }: Props) => {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
-        <div
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="body2" color="text.secondary">
-            Tercapai:
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {`${percentage}%`}
-          </Typography>
-        </div>
-        <div
-          className="flex flex-col align-center"
-          style={{
-            flex: 1,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Typography variant="body2" color="text.secondary">
-            Kebutuhan:
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {`Rp.${target_amount}`}
-          </Typography>
-        </div>
-      </CardActions>
+      <TargetRecap percentage={percentage} target_amount={target_amount} />
       <hr />
       <CardContent className="px-5 py-0 my-0 pt-2 flex-row align-center">
         <Typography gutterBottom variant="body2" component="div">

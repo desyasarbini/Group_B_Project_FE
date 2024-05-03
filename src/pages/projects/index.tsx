@@ -1,8 +1,8 @@
 import { Card, CardList, SearchField } from "@/components";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const ProjectsPage = () => {
-  // dummys array
+  // dummys array DATA
   const projectsList = [
     {
       admin_id: 2,
@@ -89,6 +89,7 @@ const ProjectsPage = () => {
   ];
 
   const [searchField, setSearchField] = useState("");
+  const [filteredProjects, setFilteredProjects] = useState(projectsList);
   const [projects, setProjects] = useState([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,12 +97,22 @@ const ProjectsPage = () => {
     setSearchField(searchFieldString);
   };
 
-  const filteredProjects = projectsList.filter((project) => {
-    return project.project_name.toLocaleLowerCase().includes(searchField);
-  });
+  useEffect(() => {
+    const newFilteredProjects = projectsList.filter((project) => {
+      return project.project_name.toLocaleLowerCase().includes(searchField);
+    });
+
+    setFilteredProjects(newFilteredProjects);
+  }, [projects, searchField]);
+
   return (
     <Card className="">
-      <SearchField handleChange={handleChange} />
+      <SearchField
+        handleChange={handleChange}
+        value=""
+        name="Cari Project"
+        type="text"
+      />
       <CardList filteredProjects={filteredProjects} />
     </Card>
   );
