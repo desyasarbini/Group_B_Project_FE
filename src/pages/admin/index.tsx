@@ -1,35 +1,34 @@
-import { Heading, Text } from "../../components";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import { Navigate } from "react-router-dom";
+import { Typography } from "@mui/material";
 
-const RegisterPage = () => {
+const Login = () => {
   const token = localStorage.getItem("token");
 
   const submitSignIn = async (user: { email: any; password: any }) => {
-    try {
-      const response = await fetch(
-        "https://mock-api.arikmpt.com/api/user/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: user.email,
-            password: user.password,
-          }),
-        }
-      );
-
-      const data = await response.json();
-      console.log(data);
-      if (data?.data.token) {
-        localStorage.setItem("token", data.data.token);
-      }
-    } catch (err) {
-      alert("Cek lagi mas! Email sama Passwornya!");
-    }
+    // try {
+    // const response = await fetch(
+    //   "https://mock-api.arikmpt.com/api/user/login",
+    //   {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       email: user.email,
+    //       password: user.password,
+    //     }),
+    //   }
+    // );
+    // const data = await response.json();
+    //   console.log(data);
+    //   if (data?.data.token) {
+    //     localStorage.setItem("token", data.data.token);
+    //   }
+    // } catch (err) {
+    //   alert("Email dan Passwor tidak sesuai.");
+    // }
   };
 
   const formMik = useFormik({
@@ -46,10 +45,10 @@ const RegisterPage = () => {
     validationSchema: yup.object({
       email: yup
         .string()
-        .min(8, "ya kali emai cuma segitu karakternya")
+        .min(8, "Masukan minimal 8 karakter")
         .matches(
           /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-          "Input The proper email coyys"
+          "Email memiliki format xxxx@xxx.xxx"
         )
         .required("Please fill the username"),
       password: yup
@@ -68,7 +67,9 @@ const RegisterPage = () => {
     return (
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <Heading title="Ayo sini kumpul gengs!" />
+          <Typography gutterBottom variant="h1" component="div">
+            Login Admin
+          </Typography>
         </div>
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
           <form
@@ -92,7 +93,11 @@ const RegisterPage = () => {
                 />
               </div>
 
-              {errors.email && <Text>{errors.email}</Text>}
+              {errors.email && (
+                <Typography gutterBottom variant="body2" component="div">
+                  {errors.email}
+                </Typography>
+              )}
               <label className="block text-sm font-medium leading-6 text-gray-900">
                 Password
               </label>
@@ -106,7 +111,11 @@ const RegisterPage = () => {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
-              {errors.password && <Text>{errors.password}</Text>}
+              {errors.password && (
+                <Typography gutterBottom variant="body2" component="div">
+                  {errors.password}
+                </Typography>
+              )}
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -122,4 +131,4 @@ const RegisterPage = () => {
   return <Navigate to="/" />;
 };
 
-export default RegisterPage;
+export default Login;

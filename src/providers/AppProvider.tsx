@@ -1,8 +1,26 @@
-// import { ReactNode, createContext, useState } from "react";
+import React, {
+  createContext,
+  ReactNode,
+  Dispatch,
+  SetStateAction,
+  useState,
+} from "react";
 
-// interface Props {
-//   children: ReactNode;
-// }
+interface User {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+}
+
+interface Context {
+  user?: User;
+  setUser: Dispatch<SetStateAction<User | undefined>>;
+}
+
+interface Props {
+  children: ReactNode;
+}
 
 // interface ProjectsDetail {
 //   admin_id: number;
@@ -19,27 +37,17 @@
 //   setProjects?: React.Dispatch<React.SetStateAction<ProjectsDetail>>;
 // }
 
-// const defaultValue: Context = {
-//   projects: undefined,
-//   setProjects: undefined,
-// };
+const defaultValue: Context = {
+  user: undefined,
+  setUser: () => {}, // Provide a default function, it will be overridden by the actual implementation
+};
 
-// const initialValue = {
-//   admin_id: "",
-//   description: "",
-//   end_date: "",
-//   id: "",
-//   percentage: "",
-//   project_image: "",
-//   project_name: "",
-//   target_amount: "",
-// };
+export const AppContext = createContext(defaultValue);
 
-// export const AppContext = createContext(defaultValue);
+const ContexProvider = ({ children }: Props) => {
+  const [user, setUser] = useState<User>();
+  const value = { user, setUser };
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+};
 
-// export const AppContextProvider = ({ children }: Props) => {
-//   const [project, setProject] = useState<Context>(initialValue);
-//   const value = { project, setProject };
-
-//   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
-// };
+export default ContexProvider;
