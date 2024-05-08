@@ -10,3 +10,4 @@ export { default as CardList } from "./CardList";
 export { default as SearchField } from "./SearchField";
 export { default as TargetRecap } from "./TargetRecap";
 export { default as Input } from "./Input";
+export { default as Button } from "./Button";
