@@ -1,118 +1,89 @@
-import * as yup from 'yup'; 
-import * as React from 'react';
+import * as Yup from "yup";
+import axios from "axios";
 import { useFormik } from "formik";
 import { Navigate } from "react-router-dom";
-import SubmitButton from '../../../components/Button';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import { API_BASE } from "@/lib/ProjectApi";
+import Box from "@mui/material/Box";
 
-interface LoginData {
-    username: string
-    password: string
-}
+const LoginPage = () => {
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().required("Required"),
+      password: Yup.string().required("Required"),
+    }),
+    onSubmit: async (values, { setSubmitting, setErrors }) => {
+      try {
+        const response = await axios.post(`${API_BASE}admin/login`, {
+          username: values.username,
+          password: values.password,
+        });
+        console.log(response.data);
+        const token = response.data.data.access_token;
+        localStorage.setItem("token", token);
 
-interface Response {
-    dataLogin: LoginData[]
-}
+        // Redirect to another page upon successful login
+        // You can use Next.js router for this
+        // router.push('/dashboard');
+      } catch (error) {
+        setErrors({ password: "Invalid username or password" });
+      }
+      setSubmitting(false);
+    },
+  });
 
-const loginAdminPage = () => {
+  return (
+    <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+      <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          Admin Sign In
+        </h2>
+      </div>
 
-    const formMik = useFormik ({
-        initialValues: {
-            username: '',
-            password: ''
-        },
-        // nilai yg ada dalam form terhapus ketika telah disubmit
-        onSubmit: (values, {resetForm}) => {
-            submitLogin(values)
-            console.log(values)
-            resetForm()
-            alert("login berhasil!")
-        },
-        // validasi data
-        validationSchema: yup.object({
-            username: yup.string().min(5,'Username must be at least 5 characters').required(),
-            password: yup.string().matches(/.{5,}/,
-            'Password must be at least 5 characters')
-            .required('Please enter the password'),
-        })
-    })
+      <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <form class="space-y-6" onSubmit={formik.handleSubmit}>
+          <div>
+            <label htmlFor="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
+            <div class="mt-2">
+              <input
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                id="username"
+                type="text"
+                {...formik.getFieldProps("username")}
+              />
+            </div>
+            {formik.touched.username && formik.errors.username ? (
+              <div>{formik.errors.username}</div>
+            ) : null}
+          </div>
 
-    const token = localStorage.getItem("token")
+          <div>
+            <label htmlFor="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+            <div class="mt-2">
+              <input
+                class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                id="password"
+                type="password"
+                {...formik.getFieldProps("password")}
+              />
+            </div>
+            {formik.touched.password && formik.errors.password ? (
+              <div>{formik.errors.password}</div>
+            ) : null}
+          </div>
+          
+          <div>
+            <button type="submit" disabled={formik.isSubmitting} class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              Sign in
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  ); return <Navigate to="/"/>;
+};
 
-    const submitLogin = async (form: {
-        username: string
-        password: string
-    }) => {
-        try {
-            const response = await fetch ('https://groupbprojectbe-production.up.railway.app/admin/login', 
-            {
-                headers: {
-                    'Content-Type': "application/json"
-                },
-                method: 'POST',
-                body: JSON.stringify({
-                    username: form.username,
-                    password: form.password
-                })
-            })
-
-            const data = await response.json();
-            console.log(data)
-            if (data?.data.token) 
-            {
-                localStorage.setItem("token", data.data.token);
-            }
-        } 
-        catch (err) {
-            alert("please check again!");
-        }
-    }
-
-    const { values, handleChange, handleSubmit } = formMik
-    const { username, password } = values
-    
-    if (!token) {
-        return(
-            <Box component="form" sx={{
-                '& .MuiTextField-root': { m: 1, width: '25ch' },
-            }}
-            noValidate
-            autoComplete="off">
-                <form onSubmit={formMik.handleSubmit}>
-                    <h2>Admin Login</h2>
-                    <div>
-                        <TextField
-                            id="outlined-required"
-                            label="Required"
-                            placeholder="username"
-                            defaultValue={formMik.values.username}
-                            onChange={formMik.handleChange('username')}
-                        />
-                        {
-                            formMik.errors.username && (
-                                <p>{formMik.errors.username}</p>
-                            )
-                        }
-                    </div>
-                    <div>
-                        <TextField
-                            id="outlined-password-input"
-                            label="Password"
-                            type="password"
-                            placeholder="password"
-                            autoComplete="current-password"
-                        />
-                        {
-                            formMik.errors.password && (
-                                <p>{formMik.errors.password}</p>
-                            )
-                        }
-                    </div>
-                    <SubmitButton label={'Submit'} type={'submit'} disabled={!formMik.isValid}/>
-                </form>
-            </Box>
-        )
-    }  return <Navigate to={'/'}/>
-}
-export default loginAdminPage
+export default LoginPage;
