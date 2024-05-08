@@ -1,8 +1,10 @@
 import { Card, CardList, SearchField } from "@/components";
 import { useEffect, useState } from "react";
+import { getProjectList } from "@/lib/ProjectApi";
 
 const ProjectsPage = () => {
   // dummys array DATA
+
   const projectsList = [
     {
       admin_id: 2,
@@ -97,6 +99,11 @@ const ProjectsPage = () => {
     const searchFieldString = event.target.value.toLocaleLowerCase();
     setSearchField(searchFieldString);
   };
+
+  useEffect(() => {
+    const get = getProjectList();
+    console.log(get);
+  }, []);
 
   useEffect(() => {
     const newFilteredProjects = projectsList.filter((project) => {
