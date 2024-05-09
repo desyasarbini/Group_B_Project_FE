@@ -2,7 +2,6 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
-import { Navigate } from "react-router-dom";
 import { API_BASE } from "@/lib/ProjectApi";
 
 const LoginPage = () => {
