@@ -3,7 +3,7 @@ export const PROJECT_API = `${API_BASE}project/`;
 export const PROJECT_API_DETAIL = `${PROJECT_API}id/`;
 
 export interface Project {
-  id: number;
+  id: string;
   project_name: string;
   project_image: string;
   description: string;
@@ -30,16 +30,17 @@ export const getProjectList = async (): Promise<Project[]> => {
 };
 
 export const getProjectDetails = async (
-  projectName: string
+  projectId: string | string[] | undefined
 ): Promise<Project | null> => {
   try {
-    const response = await fetch(`${API_BASE}project/${projectName}`);
+    const response = await fetch(`${API_BASE}project/${projectId}`);
 
     if (!response.ok) {
       throw new Error("Failed to fetch Project details");
     }
 
     const data = await response.json();
+
     return {
       id: data.id,
       project_name: data.project_name,

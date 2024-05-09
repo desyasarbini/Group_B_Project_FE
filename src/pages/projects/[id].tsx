@@ -2,42 +2,43 @@ import { useRouter } from "next/router";
 import { Card, Input, TargetRecap } from "@/components";
 import { Button, CardMedia, Grid, Typography } from "@mui/material";
 import { Send } from "@mui/icons-material";
-import { useSearchParams } from "react-router-dom";
 import { getProjectDetails } from "@/lib/ProjectApi";
+import { useEffect, useState } from "react";
+
+import { Project } from "@/lib/ProjectApi";
 
 const ProjectById = () => {
+  const [projectsDetail, setProjectsDetail] = useState<Project | null>();
   const router = useRouter();
-  router.query.id;
 
-  // useEffect(() => {
-  //   const getProject = async () => {
-  //     const get = await getProjectList();
-  //     setProjects(get);
-  //   };
-  //   getProject();
-  // }, []);
+  const projectId = router.query.id;
+
+  useEffect(() => {
+    const getProject = async (id: string | string[] | undefined) => {
+      const get = await getProjectDetails(id);
+      setProjectsDetail(get);
+    };
+    getProject(projectId);
+  }, []);
+
   return (
     <Card className="container mx-auto overflow-hidden w-full flex ">
       <Grid container spacing={2} className="p-9 h-screen">
         <Grid item xs={12} md={8}>
           <Card className="">
             <Card className="">
-              <Typography gutterBottom variant="body1" component="div">
-                Project Detail
-              </Typography>
+              <Typography
+                gutterBottom
+                variant="body1"
+                component="div"
+              ></Typography>
               <Typography gutterBottom variant="h5" component="div">
-                Title
+                {projectsDetail?.project_name}
               </Typography>
             </Card>
             <Card className="">
               <Typography gutterBottom variant="body1" component="div">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                {projectsDetail?.description}
               </Typography>
             </Card>
           </Card>
@@ -48,12 +49,15 @@ const ProjectById = () => {
               <CardMedia
                 component="img"
                 height="140"
-                image="https://i.ibb.co/34d6Bnb/original-dd6082722592575153842caf2b0cdc40.png"
+                image={projectsDetail?.project_image}
                 alt="dummy"
               />
             </Card>
             <Card className="">
-              <TargetRecap percentage={"30"} target_amount={"10000000"} />
+              <TargetRecap
+                percentage={String(projectsDetail?.percentage)}
+                target_amount={String(projectsDetail?.target_amount)}
+              />
             </Card>
             <Card className="relative py-8 ">
               <Typography gutterBottom variant="h5" component="div">

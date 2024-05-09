@@ -22,18 +22,12 @@ const ProjectsPage = () => {
   }, []);
 
   useEffect(() => {
-    const newFilteredProjects = projects.filter((project) => {
+    const newFilteredProjects = projects?.filter((project) => {
       return project.project_name.toLocaleLowerCase().includes(searchField);
     });
 
     setFilteredProjects(newFilteredProjects);
   }, [projects, searchField]);
-
-  useEffect(() => {
-    const getDetailProject = async () => {
-      const response = await fetch("");
-    };
-  }, []);
 
   return (
     <Card className="">
