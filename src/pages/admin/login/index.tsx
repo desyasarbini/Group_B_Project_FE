@@ -1,11 +1,13 @@
 import * as Yup from "yup";
 import axios from "axios";
 import { useFormik } from "formik";
+import { useRouter } from "next/router";
 import { Navigate } from "react-router-dom";
 import { API_BASE } from "@/lib/ProjectApi";
-import Box from "@mui/material/Box";
 
 const LoginPage = () => {
+  const router = useRouter();
+
   const formik = useFormik({
     initialValues: {
       username: "",
@@ -25,9 +27,7 @@ const LoginPage = () => {
         const token = response.data.data.access_token;
         localStorage.setItem("token", token);
 
-        // Redirect to another page upon successful login
-        // You can use Next.js router for this
-        // router.push('/dashboard');
+        router.push("/admin/projects");
       } catch (error) {
         setErrors({ password: "Invalid username or password" });
       }
@@ -98,7 +98,7 @@ const LoginPage = () => {
       </div>
     </div>
   );
-  return <Navigate to="/" />;
+  // return <Navigate to="/admin/projects" />;
 };
 
 export default LoginPage;
