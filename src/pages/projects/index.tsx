@@ -31,7 +31,7 @@ const ProjectsPage = () => {
 
   useEffect(() => {
     const getDetailProject = async () => {
-      const;
+      const response = await fetch("");
     };
   }, []);
 

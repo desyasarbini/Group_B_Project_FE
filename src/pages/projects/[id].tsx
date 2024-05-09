@@ -2,10 +2,20 @@ import { useRouter } from "next/router";
 import { Card, Input, TargetRecap } from "@/components";
 import { Button, CardMedia, Grid, Typography } from "@mui/material";
 import { Send } from "@mui/icons-material";
+import { useSearchParams } from "react-router-dom";
+import { getProjectDetails } from "@/lib/ProjectApi";
 
 const ProjectById = () => {
   const router = useRouter();
+  router.query.id;
 
+  // useEffect(() => {
+  //   const getProject = async () => {
+  //     const get = await getProjectList();
+  //     setProjects(get);
+  //   };
+  //   getProject();
+  // }, []);
   return (
     <Card className="container mx-auto overflow-hidden w-full flex ">
       <Grid container spacing={2} className="p-9 h-screen">
