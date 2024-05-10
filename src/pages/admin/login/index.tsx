@@ -3,7 +3,7 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { API_BASE } from "@/lib/ProjectApi";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { AppContext } from "@/providers/AppProvider";
 
 const LoginPage = () => {
@@ -28,17 +28,20 @@ const LoginPage = () => {
 
         const token = response.data.data.access_token;
         localStorage.setItem("token", token);
-        const getToken = localStorage.getItem("token");
+        router.push("/admin/projects");
         // setAuth(getToken);
-        if (getToken) {
-          router.push("/admin/projects");
-        }
       } catch (error) {
         setErrors({ password: "Invalid username or password" });
       }
       setSubmitting(false);
     },
   });
+  useEffect(() => {
+    const getToken = localStorage.getItem("token");
+    if (getToken) {
+      router.push("/admin/projects");
+    }
+  }, []);
 
   return (
     <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">

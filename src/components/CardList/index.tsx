@@ -18,11 +18,11 @@ const CardList = ({ filteredProjects }: Props) => {
   return (
     <Card className="mx-auto container flex py-10 md:mx-200">
       <Grid container className="gap-5 justify-center">
-        {filteredProjects.map((projects, listId) => {
+        {filteredProjects.map((projects) => {
           const { id } = projects;
           return (
             <div
-              id={String(listId)}
+              id={id}
               onClick={() => {
                 handleClickedProject(id);
               }}

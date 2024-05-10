@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 interface Props {
   children: ReactNode;
   className: string;
-  id?: string | undefined;
+  id?: string;
 }
 
 const Card = ({ children, className, id }: Props) => {

@@ -1,51 +1,59 @@
 import * as Yup from "yup";
 import axios from "axios";
 import { useFormik } from "formik";
-import { useRouter } from "next/router";
 import { PROJECT_API } from "@/lib/ProjectApi";
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { DateTime } from "luxon";
 
-const CreateProjectPage = () => {
-  const router = useRouter();
-
+const create = () => {
   const formik = useFormik({
     initialValues: {
-      image: "",
-      projectName: "",
+      project_image: "",
+      project_name: "",
       description: "",
-      targetAmount: "",
-      dateEnd: "",
+      target_amount: 1.0,
+      end_date: "2024-05-12",
     },
     validationSchema: Yup.object({
-      image: Yup.string().required("Required"),
-      projectName: Yup.string().required("Required"),
-      description: Yup.string().required("Required"),
-      targetAmount: Yup.number().required("Required"),
-      dateEnd: Yup.date().required("Required").min(new Date(2024, 0, 1)),
+      project_image: Yup.string().required("Required"),
+      project_name: Yup.string().min(10).required("Required"),
+      description: Yup.string().min(10).required("Required"),
+      target_amount: Yup.number().required("Required"),
+      end_date: Yup.date().required("Required"),
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
-        const response = await axios.post(`${PROJECT_API}create`, {
-          project_image: values.image,
-          project_name: values.projectName,
-          description: values.description,
-          target_amount: values.targetAmount,
-          date_end: values.dateEnd,
-        });
-        console.log(response.data);
+        const token = localStorage.getItem("token");
+        console.log(token);
+        if (!token) {
+          throw new Error("Token not found. Please login.");
+        }
+
+        const luxonEndDate = DateTime.fromISO(values.end_date);
+        const endDateString = luxonEndDate.toISODate();
+
+        console.log(endDateString);
+        await axios.post(
+          `${PROJECT_API}create`,
+          {
+            project_image: values.project_image,
+            project_name: values.project_name,
+            description: values.description,
+            target_amount: values.target_amount,
+            end_date: endDateString,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
       } catch (error) {
+        console.error("Failed to create data:", error);
         throw new Error("Failed to create data");
       }
       setSubmitting(false);
     },
   });
-
-  // Function to handle input change for targetAmount field
-  const handleTargetAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    // Remove non-numeric characters from the input value
-    const numericValue = value.replace(/[^0-9]/g, '');
-    formik.setFieldValue('targetAmount', numericValue); // Update Formik field value
-  };
 
   return (
     <div className="flex min-h-full flex-col justify-center p-12 lg:px-8">
@@ -57,10 +65,10 @@ const CreateProjectPage = () => {
 
       <div className="m-5 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6" onSubmit={formik.handleSubmit}>
-          <div className="flex justify-between">
+          <div className="flex flex-col justify-between">
             <div>
               <label
-                htmlFor="projectName"
+                htmlFor="project_name"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Project Name
@@ -68,20 +76,20 @@ const CreateProjectPage = () => {
 
               <div className="mt-2">
                 <input
-                  className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  id="projectName"
+                  className="block w-full rounded-md border-0.5 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  id="project_name"
                   type="text"
-                  {...formik.getFieldProps("projectName")}
+                  {...formik.getFieldProps("project_name")}
                 />
               </div>
-              {formik.touched.projectName && formik.errors.projectName ? (
-                <div>{formik.errors.projectName}</div>
+              {formik.touched.project_name && formik.errors.project_name ? (
+                <div>{formik.errors.project_name}</div>
               ) : null}
             </div>
 
             <div>
               <label
-                htmlFor="image"
+                htmlFor="project_image"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 URL Image
@@ -90,13 +98,13 @@ const CreateProjectPage = () => {
               <div className="mt-2">
                 <input
                   className="block w-full rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  id="image"
+                  id="project_image"
                   type="text"
-                  {...formik.getFieldProps("image")}
+                  {...formik.getFieldProps("project_image")}
                 />
               </div>
-              {formik.touched.image && formik.errors.image ? (
-                <div>{formik.errors.image}</div>
+              {formik.touched.project_image && formik.errors.project_image ? (
+                <div>{formik.errors.project_image}</div>
               ) : null}
             </div>
           </div>
@@ -111,7 +119,7 @@ const CreateProjectPage = () => {
 
             <div className="mt-2">
               <textarea
-                className="block w-full rounded-md border-0 p-1.5 h-35 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 p-1.5 h-40 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 id="description"
                 {...formik.getFieldProps("description")}
               />
@@ -124,7 +132,7 @@ const CreateProjectPage = () => {
           <div className="flex justify-between">
             <div>
               <label
-                htmlFor="targetAmount"
+                htmlFor="target_amount"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Project Budget
@@ -132,19 +140,19 @@ const CreateProjectPage = () => {
               <div className="mt-2">
                 <input
                   className="rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  id="targetAmount"
-                  type="text"
-                  {...formik.getFieldProps("targetAmount")}
+                  id="target_amount"
+                  type="number"
+                  {...formik.getFieldProps("target_amount")}
                 />
               </div>
-              {formik.touched.targetAmount && formik.errors.targetAmount ? (
-                <div>{formik.errors.targetAmount}</div>
+              {formik.touched.target_amount && formik.errors.target_amount ? (
+                <div>{formik.errors.target_amount}</div>
               ) : null}
             </div>
 
             <div>
               <label
-                htmlFor="dateEnd"
+                htmlFor="end_date"
                 className="block text-sm font-medium leading-6 text-gray-900"
               >
                 Deadline Project
@@ -152,24 +160,18 @@ const CreateProjectPage = () => {
               <div className="mt-2">
                 <input
                   className="rounded-md border-0 p-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  id="dateEnd"
+                  id="end_date"
                   type="date"
-                  {...formik.getFieldProps("dateEnd")}
+                  {...formik.getFieldProps("end_date")}
                 />
               </div>
-              {formik.touched.dateEnd && formik.errors.dateEnd ? (
-                <div>{formik.errors.dateEnd}</div>
+              {formik.touched.end_date && formik.errors.end_date ? (
+                <div>{formik.errors.end_date}</div>
               ) : null}
             </div>
           </div>
 
           <div className="flex justify-end">
-            <button
-              type="cacel"
-              className="flex w-50 justify-center rounded-md bg-red-600 px-3 p-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
-            >
-              Cancel
-            </button>
             <button
               type="submit"
               disabled={formik.isSubmitting}
@@ -184,4 +186,4 @@ const CreateProjectPage = () => {
   );
 };
 
-export default CreateProjectPage;
+export default create;
