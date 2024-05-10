@@ -51,21 +51,37 @@ const DonateForm = () => {
         className="flex flex-auto flex-col gap-2"
         onSubmit={formik.handleSubmit}
       >
-        <Input handleChange={undefined} value="" name="Email" type="text" />
+        <input
+          className="rounded-md border-1 shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 px-1"
+          type="text"
+          placeholder="email"
+          {...formik.getFieldProps("email")}
+        />
         {formik.touched.email && formik.errors.email ? (
           <div>{formik.errors.email}</div>
         ) : null}
-        <Input handleChange={undefined} value="" name="No HP" type="text" />
-        <Input
-          handleChange={undefined}
-          value=""
-          name="Jumlah Donasi"
-          type={""}
+        <input
+          className="rounded-md border-1 shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 px-1"
+          type="text"
+          placeholder="No Hp"
+          {...formik.getFieldProps("phone_number")}
         />
+        {formik.touched.phone_number && formik.errors.phone_number ? (
+          <div>{formik.errors.phone_number}</div>
+        ) : null}
+        <input
+          className="rounded-md border-1 shadow-sm ring-1 ring-inset ring-gray-300 py-1.5 px-1"
+          type="text"
+          placeholder="Jumlah Donasi"
+          {...formik.getFieldProps("amount")}
+        />
+        {formik.touched.amount && formik.errors.amount ? (
+          <div>{formik.errors.amount}</div>
+        ) : null}
         <Button
           type="submit"
           className="w-1/2"
-          // disabled={formik.isSubmitting}
+          disabled={formik.isSubmitting}
           variant="contained"
           endIcon={<Send />}
         >
