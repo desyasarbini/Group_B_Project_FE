@@ -1,13 +1,12 @@
 import * as Yup from "yup";
 import axios from "axios";
 import { useFormik } from "formik";
-import { useRouter } from "next/router";
 import { PROJECT_API } from "@/lib/ProjectApi";
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import { DateTime } from "luxon";
 
-const CreateProjectPage = () => {
-  const router = useRouter();
+const create = () => {
 
   const formik = useFormik({
     initialValues: {
@@ -15,14 +14,14 @@ const CreateProjectPage = () => {
       project_name: "",
       description: "",
       target_amount: 1.0,
-      end_date: "2024-05-01",
+      end_date: DateTime.fromISO("2024-05-12")
     },
     validationSchema: Yup.object({
       project_image: Yup.string().required("Required"),
       project_name: Yup.string().min(10).required("Required"),
       description: Yup.string().min(10).required("Required"),
       target_amount: Yup.number().required("Required"),
-      end_date: Yup.string().required("Required"),
+      end_date: Yup.date().required("Required"),
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
@@ -31,6 +30,7 @@ const CreateProjectPage = () => {
         if (!token) {
           throw new Error("Token not found. Please login.");
         }
+        
         await axios.post(
           `${PROJECT_API}create`,
           {
@@ -38,13 +38,15 @@ const CreateProjectPage = () => {
             project_name: values.project_name,
             description: values.description,
             target_amount: values.target_amount,
-            date_end: values.end_date,
+            end_date: values.end_date,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
+
       } catch (error) {
+        console.error("Failed to create data:", error);
         throw new Error("Failed to create data");
       }
       setSubmitting(false);
@@ -115,9 +117,8 @@ const CreateProjectPage = () => {
 
             <div className="mt-2">
               <textarea
-                className="block w-full rounded-md border-0 p-1.5 h-35 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                className="block w-full rounded-md border-0 p-1.5 h-40 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 id="description"
-                rows="4"
                 {...formik.getFieldProps("description")}
               />
             </div>
@@ -181,7 +182,6 @@ const CreateProjectPage = () => {
       </div>
     </div>
   );
-  return <Navigate to="/admin/projects" />
 };
 
-export default CreateProjectPage;
+export default create;
