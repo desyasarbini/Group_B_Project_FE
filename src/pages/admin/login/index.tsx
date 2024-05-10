@@ -3,9 +3,12 @@ import axios from "axios";
 import { useFormik } from "formik";
 import { useRouter } from "next/router";
 import { API_BASE } from "@/lib/ProjectApi";
+import { useContext } from "react";
+import { AppContext } from "@/providers/AppProvider";
 
 const LoginPage = () => {
   const router = useRouter();
+  const { auth, setAuth } = useContext(AppContext);
 
   const formik = useFormik({
     initialValues: {
@@ -22,11 +25,14 @@ const LoginPage = () => {
           username: values.username,
           password: values.password,
         });
-        console.log(response.data);
+
         const token = response.data.data.access_token;
         localStorage.setItem("token", token);
-
-        router.push("/admin/projects");
+        const getToken = localStorage.getItem("token");
+        // setAuth(getToken);
+        if (getToken) {
+          router.push("/admin/projects");
+        }
       } catch (error) {
         setErrors({ password: "Invalid username or password" });
       }

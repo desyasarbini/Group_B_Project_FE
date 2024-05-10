@@ -1,10 +1,13 @@
 import { getProjectList, Project } from "@/lib/ProjectApi";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { API_BASE } from "@/lib/ProjectApi";
 import { Card, ListProject, SearchField } from "@/components";
 import { useRouter } from "next/router";
+import { AppProvider } from "@/providers";
+import { AppContext } from "@/providers/AppProvider";
 
 const ProjectList = () => {
+  const { auth } = useContext(AppContext);
   const [searchField, setSearchField] = useState("");
   const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
   const [projects, setProjects] = useState<Project[]>([]);
@@ -35,13 +38,14 @@ const ProjectList = () => {
   useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem("token");
+
       return token;
     };
     const isAuth = checkAuth();
     if (!isAuth) {
-      navigate.push(`${API_BASE}/admin/login`);
+      navigate.push(`/admin/login`);
     }
-  }, []);
+  }, [auth]);
 
   return (
     <Card className="flex flex-auto flex-col justify-items-center align-center gap-5">

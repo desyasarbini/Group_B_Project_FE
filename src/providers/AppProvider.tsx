@@ -16,8 +16,11 @@ interface Context {
   setSelectedProjectID?: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
-  auth?: string;
-  setAuth?: React.Dispatch<React.SetStateAction<string | undefined>>;
+  auth?: string | undefined | null;
+  setAuth?:
+    | React.Dispatch<React.SetStateAction<string | undefined>>
+    | null
+    | undefined;
 }
 
 const defaultValue: Context = {

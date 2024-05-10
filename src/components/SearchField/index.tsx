@@ -1,7 +1,9 @@
 import { Card, Input } from "@/components";
 import { API_BASE } from "@/lib/ProjectApi";
+import { AppContext } from "@/providers/AppProvider";
 import { Button, Typography } from "@mui/material";
 import { useRouter } from "next/router";
+import { useContext } from "react";
 
 interface Props {
   handleChange:
@@ -23,6 +25,7 @@ const SearchField = ({
   isButton,
 }: Props) => {
   const navigate = useRouter();
+  const { setAuth } = useContext(AppContext);
 
   return (
     <Card className="container mx-auto w-full">
@@ -41,7 +44,7 @@ const SearchField = ({
           {isButton ? (
             <Button
               onClick={() => {
-                navigate.push(`${API_BASE}/admin/projects/create`);
+                navigate.push(`/admin/projects/create`);
               }}
             >
               Add Project
@@ -52,6 +55,8 @@ const SearchField = ({
             <Button
               onClick={() => {
                 localStorage.setItem("token", "");
+                // const isLogin: string | null = localStorage.getItem("token");
+                // setAuth(isLogin);
               }}
             >
               Logout
