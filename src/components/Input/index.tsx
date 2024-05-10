@@ -2,20 +2,24 @@ import { TextField } from "@mui/material";
 import { Card } from "@/components";
 
 interface Props {
-  label: string;
+  handleChange:
+    | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined;
+  value: string;
   name: string;
   type: string;
 }
 
-const Input = ({ label, name, type }: Props) => {
+const Input = ({ handleChange, value, name, type }: Props) => {
   return (
     <Card className="">
       <TextField
-        label={label}
+        label={name}
         name={name}
         type={type}
         id="outlined-size-small"
         size="small"
+        onChange={handleChange}
       />
     </Card>
   );

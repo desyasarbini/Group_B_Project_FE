@@ -13,13 +13,6 @@ const ProjectsPage = () => {
   };
 
   // console.log(getProject);
-  useEffect(() => {
-    const getProject = async () => {
-      const get = await getProjectList();
-      setProjects(get);
-    };
-    getProject();
-  }, []);
 
   useEffect(() => {
     const newFilteredProjects = projects?.filter((project) => {
@@ -28,6 +21,14 @@ const ProjectsPage = () => {
 
     setFilteredProjects(newFilteredProjects);
   }, [projects, searchField]);
+
+  useEffect(() => {
+    const getProject = async () => {
+      const get = await getProjectList();
+      setProjects(get);
+    };
+    getProject();
+  }, []);
 
   return (
     <Card className="">
