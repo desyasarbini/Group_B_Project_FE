@@ -7,14 +7,13 @@ import { Navigate } from "react-router-dom";
 import { DateTime } from "luxon";
 
 const create = () => {
-
   const formik = useFormik({
     initialValues: {
       project_image: "",
       project_name: "",
       description: "",
       target_amount: 1.0,
-      end_date: DateTime.fromISO("2024-05-12")
+      end_date: "2024-05-12",
     },
     validationSchema: Yup.object({
       project_image: Yup.string().required("Required"),
@@ -30,7 +29,11 @@ const create = () => {
         if (!token) {
           throw new Error("Token not found. Please login.");
         }
-        
+
+        const luxonEndDate = DateTime.fromISO(values.end_date);
+        const endDateString = luxonEndDate.toISODate();
+
+        console.log(endDateString);
         await axios.post(
           `${PROJECT_API}create`,
           {
@@ -38,13 +41,12 @@ const create = () => {
             project_name: values.project_name,
             description: values.description,
             target_amount: values.target_amount,
-            end_date: values.end_date,
+            end_date: endDateString,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-
       } catch (error) {
         console.error("Failed to create data:", error);
         throw new Error("Failed to create data");
