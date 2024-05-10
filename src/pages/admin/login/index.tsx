@@ -25,9 +25,9 @@ const LoginPage = () => {
         });
         console.log(response.data);
         const token = response.data.data.access_token;
-        localStorage.setItem("token", token);
+        localStorage.setItem('token', token);
 
-        router.push("/admin/projects");
+        router.push("/admin/projects/create");
       } catch (error) {
         setErrors({ password: "Invalid username or password" });
       }
