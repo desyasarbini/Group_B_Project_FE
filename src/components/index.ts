@@ -12,3 +12,4 @@ export { default as TargetRecap } from "./TargetRecap";
 export { default as Input } from "./Input";
 export { default as Button } from "./Button";
 export { default as DonateForm } from "./DonateForm";
+export { default as ListProject } from "./ListProject";

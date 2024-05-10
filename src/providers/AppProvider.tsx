@@ -16,6 +16,8 @@ interface Context {
   setSelectedProjectID?: React.Dispatch<
     React.SetStateAction<string | undefined>
   >;
+  auth?: string;
+  setAuth?: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const defaultValue: Context = {
@@ -23,6 +25,8 @@ const defaultValue: Context = {
   setAdmin: undefined,
   selectedProjectID: undefined,
   setSelectedProjectID: undefined,
+  auth: undefined,
+  setAuth: undefined,
 };
 
 export const AppContext = createContext(defaultValue);
@@ -30,7 +34,16 @@ export const AppContext = createContext(defaultValue);
 const AppProvider = ({ children }: Props) => {
   const [admin, setAdmin] = useState<Admin>();
   const [selectedProjectID, setSelectedProjectID] = useState<string>();
-  const value = { admin, setAdmin, selectedProjectID, setSelectedProjectID };
+  const [auth, setAuth] = useState<string>();
+
+  const value = {
+    admin,
+    setAdmin,
+    selectedProjectID,
+    setSelectedProjectID,
+    auth,
+    setAuth,
+  };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

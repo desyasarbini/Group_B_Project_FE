@@ -1,58 +1,63 @@
-import { useSearchParams } from "next/navigation";
-import { getProjectList, Project } from '@/lib/ProjectApi';
-import React, { useEffect, useState } from 'react';
-import Input from "@mui/material/Input";
+import { getProjectList, Project } from "@/lib/ProjectApi";
+import React, { useEffect, useState } from "react";
+import { API_BASE } from "@/lib/ProjectApi";
+import { Card, ListProject, SearchField } from "@/components";
+import { useRouter } from "next/router";
 
-interface ProjectProps{
-  projectList: Project[];
-}
+const ProjectList = () => {
+  const [searchField, setSearchField] = useState("");
+  const [filteredProjects, setFilteredProjects] = useState<Project[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
 
-const ProjectList: React.FC<ProjectProps> = ({projectList}: ProjectProps) => {
-  const searchParam = useSearchParams();
-  const [SearchProject, setSearchProject] = useState('')
-  console.log(projectList)
-  const filteredProjectList = projectList.filter((project) => 
-    project.project_name.toLowerCase().includes(SearchProject.toLowerCase())
-  )
-  const [ProjectList, setProjectList] = useState<Project[]>([])
+  const navigate = useRouter();
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchFieldString = event.target.value.toLocaleLowerCase();
+    setSearchField(searchFieldString);
+  };
 
   useEffect(() => {
-    const fetchProjectList = async() => {
-      try {
-        const data = await getProjectList();
-        setProjectList(data);
-      } catch (error) {
-        console.error('Error fetching Project list:', (error as Error).message);
-      }
+    const newFilteredProjects = projects?.filter((project) => {
+      return project.project_name.toLocaleLowerCase().includes(searchField);
+    });
+
+    setFilteredProjects(newFilteredProjects);
+  }, [projects, searchField]);
+
+  useEffect(() => {
+    const getProject = async () => {
+      const get = await getProjectList();
+      setProjects(get);
+    };
+    getProject();
+  }, []);
+
+  useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem("token");
+      return token;
+    };
+    const isAuth = checkAuth();
+    if (!isAuth) {
+      navigate.push(`${API_BASE}/admin/login`);
     }
-    fetchProjectList();
-  }, [])
+  }, []);
 
-  return(
-    <>
-      <div>
-        <h3 className="text-2xl py-6 text-center">search Project</h3>
-        <div className="grid w-full justify-center gap-1.5">
-          <h6>Project Name</h6>
-          <Input
-            type="text"
-            value={SearchProject}
-            id="projectName"
-            placeholder="project name etc ..."
-            onChange={(e) => setSearchProject(e.target.value)}
-            className="border-blue-950"
-          />
-        </div>
-        <h3 className="text-3xl text-center py-6">Project List</h3>
-      </div>
-
-      <div className="mb-32 grid text-center justify-center px-10 lg:mb-0 lg:grid-cols-3 lg:text-left">
-        {filteredProjectList.map((project) => (
-        <div key={project.project_name} defaultValue={project.project_name} />
-        ))}
-      </div>
-    </> 
-  )
+  return (
+    <Card className="flex flex-auto flex-col justify-items-center align-center gap-5">
+      <SearchField
+        title="List of Project"
+        handleChange={handleChange}
+        value=""
+        name="Cari Project"
+        type="text"
+        isButton={true}
+      />
+      <Card className="container mx-auto w-full">
+        <ListProject filteredProjects={filteredProjects} />
+      </Card>
+    </Card>
+  );
 };
 
 export default ProjectList;

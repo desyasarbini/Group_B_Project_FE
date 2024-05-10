@@ -33,10 +33,12 @@ const ProjectsPage = () => {
   return (
     <Card className="">
       <SearchField
+        title="Project Kami"
         handleChange={handleChange}
         value=""
         name="Cari Project"
         type="text"
+        isButton={false}
       />
       <CardList filteredProjects={filteredProjects} />
     </Card>
