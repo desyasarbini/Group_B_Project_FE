@@ -10,7 +10,7 @@ interface Props {
   type: string;
 }
 
-const Input = ({ handleChange, value, name, type }: Props) => {
+const Input = ({ handleChange, name, type }: Props) => {
   return (
     <Card className="">
       <TextField
@@ -20,7 +20,6 @@ const Input = ({ handleChange, value, name, type }: Props) => {
         id="outlined-size-small"
         size="small"
         onChange={handleChange}
-        value={value}
       />
     </Card>
   );
