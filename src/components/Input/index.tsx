@@ -10,7 +10,7 @@ interface Props {
   type: string;
 }
 
-const Input = ({ handleChange, value, name, type }: Props) => {
+const Input = ({ handleChange, name, type }: Props) => {
   return (
     <Card className="">
       <TextField
