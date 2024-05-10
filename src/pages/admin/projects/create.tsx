@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { DateTime } from "luxon";
 
-const create = () => {
+const Create = () => {
   const formik = useFormik({
     initialValues: {
       project_image: "",
@@ -186,4 +186,4 @@ const create = () => {
   );
 };
 
-export default create;
+export default Create;

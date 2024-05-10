@@ -15,11 +15,11 @@ const Activity = ({ activities }: Props) => {
     <Card className="my-12">
       <Card className="container mx-auto">
         <Card className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {activities.map((activity) => {
+          {activities.map((activity, key) => {
             const { title, description, id } = activity;
 
             return (
-              <Card id={id} className="flex flex-col items-center">
+              <Card key={key} id={id} className="flex flex-col items-center">
                 <Card className="p-4 bg-white rounded-lg shadow-lg">
                   <TextTag type="p" className="mt-4 text-xl font-semibold">
                     {title}
