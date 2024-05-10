@@ -1,30 +1,21 @@
 // pages/about.tsx
 import React from 'react';
+import aboutImg from "/public/slide-2.jpg"
+import { Hero } from '@/components';
 
 const AboutPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white container mx-auto">
-      <header className=" text-3xl font-bold py-4">
-        <div className="max-w-4xl mx-auto px-4">
-        </div>
-      </header>
-      <main className="max-w-4xl mx-auto py-8 px-4">
-        <h1 className="text-4xl font-bold mb-8">About Us</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          <div>
-            <p className="text-lg mb-4">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquam est vel risus congue lacinia. Nulla
-              facilisi. Vestibulum posuere fermentum purus, vel pharetra velit sodales id.
-            </p>
-            <p className="text-lg">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquam est vel risus congue lacinia. Nulla
-              facilisi. Vestibulum posuere fermentum purus, vel pharetra velit sodales id.
-            </p>
-          </div>
-        </div>
-      </main>
-    </div>
-  );
+    <>
+      <Hero
+        title="About Us"
+        image={aboutImg}
+        description="LSTR (Lestari) adalah organsasi non-profit yang berfokus dalam pemeliharan lingkungan dan kesejahteraan masyarakat. LSTR dapat menjadi sarana informasi bagi orang banyak yang ingin terlibat dalam berbagai macam kegiatan yang membutuhkan perhatian khusus dan memberikan impact yang baik dimasa depan."
+        backgroundColor="bg-white"
+        descriptionColor='text-black'
+      />
+    </>
+
+  )
 };
 
 export default AboutPage;
