@@ -2,6 +2,7 @@ import { Card, Input } from "@/components";
 import { API_BASE } from "@/lib/ProjectApi";
 import { AppContext } from "@/providers/AppProvider";
 import { Button, Typography } from "@mui/material";
+import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useContext } from "react";
 
@@ -55,8 +56,7 @@ const SearchField = ({
             <Button
               onClick={() => {
                 localStorage.setItem("token", "");
-                // const isLogin: string | null = localStorage.getItem("token");
-                // setAuth(isLogin);
+                navigate.push("/admin/login");
               }}
             >
               Logout

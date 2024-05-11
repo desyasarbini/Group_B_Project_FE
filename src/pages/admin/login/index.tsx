@@ -29,6 +29,7 @@ const LoginPage = () => {
         const token = response.data.data.access_token;
         localStorage.setItem("token", token);
         router.push("/admin/projects");
+        alert(response.data.status.message);
         // setAuth(getToken);
       } catch (error) {
         setErrors({ password: "Invalid username or password" });
