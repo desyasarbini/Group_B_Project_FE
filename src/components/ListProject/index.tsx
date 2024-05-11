@@ -18,6 +18,17 @@ interface Props {
 
 const ListProject = ({ filteredProjects }: Props) => {
   const navigate = useRouter();
+  const reformatedCurency = (target_amount: string) => {
+    const amount = parseFloat(target_amount);
+
+    const formattedCurrency = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(amount);
+
+    return formattedCurrency;
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -44,7 +55,9 @@ const ListProject = ({ filteredProjects }: Props) => {
               </TableCell>
               <TableCell align="left">{project.project_name}</TableCell>
               <TableCell align="center">{project.percentage}</TableCell>
-              <TableCell align="right">{project.target_amount}</TableCell>
+              <TableCell align="right">
+                {reformatedCurency(project.target_amount)}
+              </TableCell>
               <TableCell align="right">
                 <img
                   src={project.project_image}

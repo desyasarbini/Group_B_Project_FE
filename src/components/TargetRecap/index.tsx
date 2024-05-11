@@ -6,6 +6,13 @@ interface Props {
 }
 
 const TargetRecap = ({ percentage, target_amount }: Props) => {
+  const amount = parseFloat(target_amount);
+
+  const formattedCurrency = new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+  }).format(amount);
+
   return (
     <CardActions>
       <div
@@ -36,7 +43,7 @@ const TargetRecap = ({ percentage, target_amount }: Props) => {
           Kebutuhan:
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {`Rp.${target_amount}`}
+          {formattedCurrency}
         </Typography>
       </div>
     </CardActions>
