@@ -37,7 +37,7 @@ const ListProject = ({ filteredProjects }: Props) => {
             <TableCell>id</TableCell>
             <TableCell align="center">Project Name</TableCell>
             <TableCell align="center">Percentage(%)</TableCell>
-            <TableCell align="center">Target Amount(Rp)</TableCell>
+            <TableCell align="center">Target Amount</TableCell>
             <TableCell align="center">Image</TableCell>
             <TableCell align="center" colSpan={3}>
               Action
