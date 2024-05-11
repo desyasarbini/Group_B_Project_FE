@@ -70,9 +70,10 @@ const ListProject = ({ filteredProjects }: Props) => {
                     if (!token) {
                       throw new Error("Token not found. Please login.");
                     }
-                    await axios.post(`${PROJECT_API}project/delete/12`, {
+                    await axios.delete(`${PROJECT_API}project/delete/12`, {
                       headers: { Authorization: `Bearer ${token}` },
                     });
+                    navigate.push("/admin/projects");
                   }}
                 >
                   Delete

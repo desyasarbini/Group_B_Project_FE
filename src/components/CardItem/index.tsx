@@ -47,9 +47,10 @@ const CardItem: React.FC<Props> = ({ project }: Props) => {
       <CardActionArea>
         <CardMedia
           component="img"
-          height="140"
+          height={200}
           image={project_image}
           alt={project_name}
+          sx={{ height: 200 }}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
