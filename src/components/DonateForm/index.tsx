@@ -30,7 +30,7 @@ const DonateForm = () => {
           phone_number: values.phone_number,
           amount: values.amount,
         });
-        console.log(response.data);
+        navigate.push("/projects");
       } catch (error) {
         setErrors({
           email: "Invalid email format",
